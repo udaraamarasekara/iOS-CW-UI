@@ -15,6 +15,13 @@
 		62EB3F112BB01F8E003607B5 /* CourseWorkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EB3F102BB01F8E003607B5 /* CourseWorkUITests.swift */; };
 		62EB3F1B2BB01F8E003607B5 /* CourseWorkUIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EB3F1A2BB01F8E003607B5 /* CourseWorkUIUITests.swift */; };
 		62EB3F1D2BB01F8E003607B5 /* CourseWorkUIUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EB3F1C2BB01F8E003607B5 /* CourseWorkUIUITestsLaunchTests.swift */; };
+		62EB3F2A2BB01FAC003607B5 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EB3F292BB01FAC003607B5 /* RegistrationView.swift */; };
+		62EB3F2C2BB01FC4003607B5 /* RegistrationViewPartTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EB3F2B2BB01FC4003607B5 /* RegistrationViewPartTwo.swift */; };
+		62EB3F2E2BB0209E003607B5 /* EditAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EB3F2D2BB0209E003607B5 /* EditAccountView.swift */; };
+		62EB3F302BB02126003607B5 /* ReusableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EB3F2F2BB02126003607B5 /* ReusableTextView.swift */; };
+		62EB3F322BB02142003607B5 /* AvailableProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EB3F312BB02142003607B5 /* AvailableProductsView.swift */; };
+		62EB3F342BB02184003607B5 /* PlaceOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EB3F332BB02184003607B5 /* PlaceOrderView.swift */; };
+		62EB3F362BB021AA003607B5 /* ViewOrdersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EB3F352BB021AA003607B5 /* ViewOrdersView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +54,13 @@
 		62EB3F162BB01F8E003607B5 /* CourseWorkUIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CourseWorkUIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		62EB3F1A2BB01F8E003607B5 /* CourseWorkUIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseWorkUIUITests.swift; sourceTree = "<group>"; };
 		62EB3F1C2BB01F8E003607B5 /* CourseWorkUIUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseWorkUIUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		62EB3F292BB01FAC003607B5 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
+		62EB3F2B2BB01FC4003607B5 /* RegistrationViewPartTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewPartTwo.swift; sourceTree = "<group>"; };
+		62EB3F2D2BB0209E003607B5 /* EditAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountView.swift; sourceTree = "<group>"; };
+		62EB3F2F2BB02126003607B5 /* ReusableTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableTextView.swift; sourceTree = "<group>"; };
+		62EB3F312BB02142003607B5 /* AvailableProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableProductsView.swift; sourceTree = "<group>"; };
+		62EB3F332BB02184003607B5 /* PlaceOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceOrderView.swift; sourceTree = "<group>"; };
+		62EB3F352BB021AA003607B5 /* ViewOrdersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewOrdersView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +117,13 @@
 				62EB3F022BB01F8D003607B5 /* Assets.xcassets */,
 				62EB3F042BB01F8D003607B5 /* CourseWorkUI.entitlements */,
 				62EB3F052BB01F8D003607B5 /* Preview Content */,
+				62EB3F292BB01FAC003607B5 /* RegistrationView.swift */,
+				62EB3F2B2BB01FC4003607B5 /* RegistrationViewPartTwo.swift */,
+				62EB3F2D2BB0209E003607B5 /* EditAccountView.swift */,
+				62EB3F2F2BB02126003607B5 /* ReusableTextView.swift */,
+				62EB3F312BB02142003607B5 /* AvailableProductsView.swift */,
+				62EB3F332BB02184003607B5 /* PlaceOrderView.swift */,
+				62EB3F352BB021AA003607B5 /* ViewOrdersView.swift */,
 			);
 			path = CourseWorkUI;
 			sourceTree = "<group>";
@@ -262,9 +283,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62EB3F302BB02126003607B5 /* ReusableTextView.swift in Sources */,
+				62EB3F2E2BB0209E003607B5 /* EditAccountView.swift in Sources */,
 				62EB3EFF2BB01F8B003607B5 /* ContentView.swift in Sources */,
+				62EB3F2C2BB01FC4003607B5 /* RegistrationViewPartTwo.swift in Sources */,
 				62EB3F012BB01F8B003607B5 /* Item.swift in Sources */,
 				62EB3EFD2BB01F8B003607B5 /* CourseWorkUIApp.swift in Sources */,
+				62EB3F322BB02142003607B5 /* AvailableProductsView.swift in Sources */,
+				62EB3F2A2BB01FAC003607B5 /* RegistrationView.swift in Sources */,
+				62EB3F362BB021AA003607B5 /* ViewOrdersView.swift in Sources */,
+				62EB3F342BB02184003607B5 /* PlaceOrderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
