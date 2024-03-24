@@ -23,11 +23,24 @@ struct RegistrationView: View {
                    ReusableTextView(text:$password, placeholder:"Password")
                    ReusableTextView(text:$password_confirmation, placeholder:"Password confirmation")
                    Text("Login instead!").foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) )
-                   
-                   Button("Next"){
+                   HStack{
+                       Button {
+                           
+                       }label:{
+                           Text("Quit").padding()
+                               .background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
+                               .padding(.vertical,8)
+                               .foregroundStyle(Color.black).frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)                       }
+                   Spacer()
                        
+                       Button {
+                           
+                       }label:{
+                           Text("Next").padding()
+                               .background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
+                               .padding(.vertical,8)
+                           .foregroundStyle(Color.black).frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)                       }
                    }
-                   
                }
            }
                
