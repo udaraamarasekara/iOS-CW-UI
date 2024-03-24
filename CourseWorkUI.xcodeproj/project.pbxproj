@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		62B408152BB05C720025F36E /* EditAccountViewPartTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62B408142BB05C720025F36E /* EditAccountViewPartTwo.swift */; };
 		62EB3EFD2BB01F8B003607B5 /* CourseWorkUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EB3EFC2BB01F8B003607B5 /* CourseWorkUIApp.swift */; };
 		62EB3EFF2BB01F8B003607B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EB3EFE2BB01F8B003607B5 /* ContentView.swift */; };
 		62EB3F012BB01F8B003607B5 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EB3F002BB01F8B003607B5 /* Item.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		62B408142BB05C720025F36E /* EditAccountViewPartTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountViewPartTwo.swift; sourceTree = "<group>"; };
 		62EB3EF92BB01F8B003607B5 /* CourseWorkUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CourseWorkUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		62EB3EFC2BB01F8B003607B5 /* CourseWorkUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseWorkUIApp.swift; sourceTree = "<group>"; };
 		62EB3EFE2BB01F8B003607B5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				62EB3F312BB02142003607B5 /* AvailableProductsView.swift */,
 				62EB3F332BB02184003607B5 /* PlaceOrderView.swift */,
 				62EB3F352BB021AA003607B5 /* ViewOrdersView.swift */,
+				62B408142BB05C720025F36E /* EditAccountViewPartTwo.swift */,
 			);
 			path = CourseWorkUI;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 				62EB3EFF2BB01F8B003607B5 /* ContentView.swift in Sources */,
 				62EB3F2C2BB01FC4003607B5 /* RegistrationViewPartTwo.swift in Sources */,
 				62EB3F012BB01F8B003607B5 /* Item.swift in Sources */,
+				62B408152BB05C720025F36E /* EditAccountViewPartTwo.swift in Sources */,
 				62EB3EFD2BB01F8B003607B5 /* CourseWorkUIApp.swift in Sources */,
 				62EB3F322BB02142003607B5 /* AvailableProductsView.swift in Sources */,
 				62EB3F2A2BB01FAC003607B5 /* RegistrationView.swift in Sources */,

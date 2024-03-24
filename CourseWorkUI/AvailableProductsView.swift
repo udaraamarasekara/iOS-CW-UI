@@ -8,9 +8,28 @@
 import SwiftUI
 
 struct AvailableProductsView: View {
+    @State private var search=""
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+        
+            ZStack{
+                Color(red:217/255,green: 217/255,blue:217/255).ignoresSafeArea()
+                    VStack{
+                        Text("Available Products").font(.system(size:36)).foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) )
+                        ReusableTextView(text:$search, placeholder:"Search")
+                        
+                        
+                        
+                       
+                            ZStack(alignment:.center)
+                            {
+                     
+                                Spacer()
+                            }
+                        }
+                        
+                       
+                    
+            }   }
 }
 
 #Preview {
