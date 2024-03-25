@@ -27,27 +27,27 @@ struct EditAccountViewPartTwo: View {
                     ReusableTextView(text:$account_name, placeholder:"Account name")
                     ReusableTextView(text:$expired_date, placeholder:"Expired date (yyyy-mm-dd)")
                     ReusableTextView(text:$cvv, placeholder:"CVV")
-                    Text("Login instead!").foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) )
+                   
                     HStack{
                         Button {
                             
                         }label:{
                             Text("Back").padding()
-                                .background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
+                                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
                                 .padding(.vertical,8)
-                                .foregroundStyle(Color.black).frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)                       }
+                            .foregroundStyle(Color.black)}
                     Spacer()
                         
                         Button {
                             
                         }label:{
                             Text("Save").padding()
-                                .background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
+                                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
                                 .padding(.vertical,8)
-                            .foregroundStyle(Color.black).frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)                       }
-                    }
+                            .foregroundStyle(Color.black)}
+                    }.padding(.vertical)
 
-                    
+                    Text("Login instead!").foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) )
                     
                 }
             }
