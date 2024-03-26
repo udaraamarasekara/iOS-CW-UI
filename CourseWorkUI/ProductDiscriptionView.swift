@@ -1,5 +1,5 @@
 //
-//  DetailedProductView.swift
+//  ProductDiscriptionView.swift
 //  CourseWorkUI
 //
 //  Created by Udara PC on 2024-03-25.
@@ -7,10 +7,8 @@
 
 import SwiftUI
 
-struct DetailedProductView: View {
-    @State private var size=""
-    @State private var color=""
-    @State private var image=""
+struct ProductDiscriptionView: View {
+    @State private var discription=""
     @State private var itemName=""
      var body: some View {
         
@@ -21,16 +19,11 @@ struct DetailedProductView: View {
                  Text(itemName).font(.system(size:36)).foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) )
                  
                  
+                 Text("order").fontWeight(.semibold)
+                     
+
                  
                  
-                 
-                 
-                 AsyncImage(url:URL(string:"https://picsum.photos/id/1/200/300")){
-                     image in
-                     image.image?.resizable().aspectRatio(contentMode:.fill)
-                 }.frame(maxWidth:.infinity,maxHeight:300,alignment:.topLeading)                     .cornerRadius(20)
-.clipped().padding(.vertical,8)
-                     .padding(.horizontal,24)
                  HStack{
                      Button {
                          
@@ -48,22 +41,14 @@ struct DetailedProductView: View {
                          
                          .foregroundStyle(Color.black) .padding(.vertical,30)                    }}
                  
-                 Text("Size :" + size).padding()
                  
                  
-                     .foregroundColor(.black.opacity(0.5)).font(.system(size:22, weight:.semibold)).frame(maxWidth:.infinity).background(Color(red:245/255,green:245/255,blue:245/255)).padding(.horizontal,24).padding(.vertical,8)
-                
-                 Text("Color :" + color).padding()
-                     .foregroundColor(.black.opacity(0.5)).font(.system(size:22, weight:.semibold)).frame(maxWidth:.infinity).background(Color(red:245/255,green:245/255,blue:245/255)).padding(.horizontal,24)
                  
-                 
-                 Text("more details...").foregroundStyle( Color(red:127/255,green:123/255,blue:13/255)).padding(.horizontal,24).frame(maxWidth:/*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment:.trailing).padding()             }.padding()
+                 Text("<-Back").foregroundStyle( Color(red:127/255,green:123/255,blue:13/255)).padding(.horizontal,24).frame(maxWidth:/*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment:.trailing).padding()             }.padding()
          }
          }
-                    
-            
 }
 
 #Preview {
-    DetailedProductView()
+    ProductDiscriptionView()
 }

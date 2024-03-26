@@ -1,13 +1,13 @@
 //
-//  ViewOrdersView.swift
+//  ViewOrdersForAdminView.swift
 //  CourseWorkUI
 //
-//  Created by Udara PC on 2024-03-24.
+//  Created by Udara PC on 2024-03-25.
 //
 
 import SwiftUI
 
-struct ViewOrdersView: View {
+struct ViewOrdersForAdminView: View {
     @State private var orders=[]
     var body: some View {
         
@@ -41,5 +41,5 @@ struct ViewOrdersView: View {
 }
 
 #Preview {
-    ViewOrdersView()
+    ViewOrdersForAdminView()
 }

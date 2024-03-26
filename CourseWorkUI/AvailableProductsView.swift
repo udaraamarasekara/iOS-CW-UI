@@ -9,8 +9,8 @@ import SwiftUI
 
 struct AvailableProductsView: View {
     @State private var search=""
-    @State private var itemName="redda"
-    @State private var price="gaana"
+    @State private var itemName=""
+    @State private var price=""
     var body: some View {
         
         ZStack{
@@ -42,7 +42,7 @@ struct AvailableProductsView: View {
                             Button {
                                 
                             }label:{
-                                Text("Back").padding()
+                                Text("Order").padding()
                                     .frame(maxWidth: .infinity).background(Color(red:86/255,green:217/255,blue:226/255)).fontWeight(.semibold)   .padding(.horizontal,24)
                                     .padding(.vertical,8)
                                 .foregroundStyle(Color.black)}
@@ -51,7 +51,7 @@ struct AvailableProductsView: View {
                             Button {
                                 
                             }label:{
-                                Text("Save").padding()
+                                Text("Vier more").padding()
                                     .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:189/255,green:226/255,blue:86/255)).fontWeight(.semibold)   .padding(.horizontal,24)
                                     .padding(.vertical,8)
                                 .foregroundStyle(Color.black)}
