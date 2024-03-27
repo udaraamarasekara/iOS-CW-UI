@@ -25,7 +25,7 @@ struct CourseWorkUIApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NewProductViewThree()
         }
         .modelContainer(sharedModelContainer)
     }
