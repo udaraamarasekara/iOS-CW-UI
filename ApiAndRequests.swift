@@ -9,16 +9,14 @@ import Foundation
     
    let  url = "https://courseworkbackend-b793e777959e.herokuapp.com/api/"
    let session = URLSession.shared
-var token = ""
-var role = ""
-   func login(email:String,password:String)->Any{
+   func login(email:String,password:String)->Bool{
        
        struct loginResponse:Hashable,Codable{
         let role:String
         let token:String
        }
-       var res:Any = ""
-      guard let endpoint = URL(string:url+"sanctum/token")else{return "" }
+       var res = false
+      guard let endpoint = URL(string:url+"sanctum/token")else{return false }
        var request = URLRequest(url:endpoint)
        request.httpMethod = "POST"
        let requestData:[String:Any]=[
@@ -26,47 +24,45 @@ var role = ""
         "password":password,
         "device_name":"apple"
        ]
+       request.setValue("application/json", forHTTPHeaderField: "Content-Type")
        do {
-               request.httpBody = try JSONSerialization.data(withJSONObject: requestData)
+           request.httpBody = try JSONSerialization.data(withJSONObject: requestData,options:[])
            } catch {
-               res=false
-               
-           }       
-       let task = session.dataTask(with:request){data,response,error in
-           
-           if let error = error {
                res = false
-               return
            }
-           
-           guard let httpResponse = response as? HTTPURLResponse else {
-           res = false
-               return
-           }
-           
-           if httpResponse.statusCode == 200 {
-               print("Request succeeded!")
-               // Handle data returned from the server
-               if let data = data {
-                   // Parse and handle the response data
-                   do{
-                       let newVal = try JSONDecoder().decode(loginResponse.self, from: data)
-                       token = newVal.token
-                        res = newVal
-                   }catch{
-                       
-                   }
+       res = false
+       session.dataTask(with:request){data,response,error in
+               if let error = error {
+                   res = false
+                   return
                }
+            
+               guard let httpResponse = response as? HTTPURLResponse else {
+                   res = false
+                   return
+               }
+               
+               if httpResponse.statusCode == 200 {
+                   res = true
+                   // Handle data returned from the server
+                   if let data = data {
+                       // Parse and handle the response data
+                       do{
+                           let newVal = try JSONDecoder().decode(loginResponse.self, from: data)
+                           UserDefaults.standard.set(newVal.token , forKey:"token")
+                           UserDefaults.standard.set(newVal.role , forKey:"role")
+                       }catch{
+                           res = false
+                       }
+                   }
                    
-           } else {
-               res = false
-           }
+               } else {
+                   res = false
+               }
+               
+           }.resume()
            
-       }
-           // Resume the task
-           task.resume()
        
-           
        return res
     }
 

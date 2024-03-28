@@ -10,6 +10,7 @@ import SwiftUI
 struct LoginView: View {
     @State private var email=""
     @State private var password=""
+    @State private var loginStatus = ""
     var body: some View {
         NavigationView{
             ZStack{
@@ -33,7 +34,7 @@ struct LoginView: View {
                         Spacer()
                         
                         Button {
-                            login(email: email, password:password)
+                           email =  login(email: email, password:password)
                         }label:{
                             Text("login").padding()
                                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
