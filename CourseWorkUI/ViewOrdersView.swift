@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ViewOrdersView: View {
-    @State private var orders=[]
+    @Binding var response:CommonResponse
     var body: some View {
         
         
@@ -17,7 +17,22 @@ struct ViewOrdersView: View {
             
             VStack{
                 Text("Your Orders").font(.system(size:36)).foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) )
-                Text("order").fontWeight(.semibold)
+                if(response.data.isEmpty)
+                {
+                    Text("You have no orders!").fontWeight(.semibold)
+                }
+                else
+                {
+                    ForEach(response.data)
+                    {
+                        element in
+                        VStack{
+                            Text("Order status :"+" "+element.status)
+                            Text("Total items  :"+" "+"\(element.items)")
+                            Text("Total price  :"+" "+"\(element.total)")
+                           }
+                        }
+                }
                     
                 HStack{
                     Button {
@@ -40,6 +55,4 @@ struct ViewOrdersView: View {
             }}}
 }
 
-#Preview {
-    ViewOrdersView()
-}
+

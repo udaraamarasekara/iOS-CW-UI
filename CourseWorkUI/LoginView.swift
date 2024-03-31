@@ -6,16 +6,18 @@
 //
 
 import SwiftUI
-
 struct LoginView: View {
     @State private var email=""
     @State private var password=""
-    @State private var loginStatus = ""
+    @State private var loginStatus = false
+    @State var isError = false
+    @State private var path = NavigationPath()
     var body: some View {
-        NavigationView{
+                NavigationStack(path:$path){
             ZStack{
                 Color(red:217/255,green: 217/255,blue:217/255).ignoresSafeArea()
                 
+               
                 VStack{
                     Text("Login").font(.system(size:36)).foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) )
                     
@@ -25,8 +27,7 @@ struct LoginView: View {
                     
                     HStack{
                         Button {
-                            
-                        }label:{
+                            exit(0)                        }label:{
                             Text("Quit").padding()
                                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
                                 .padding(.vertical,8)
@@ -34,7 +35,22 @@ struct LoginView: View {
                         Spacer()
                         
                         Button {
-                           email =  login(email: email, password:password)
+                            Task{
+                                
+                                loginStatus =   await login(email: email, password:password)
+                           
+                                if(loginStatus)
+                                {
+                                    path.append("WelcomeView")
+                                }else{
+                                    isError = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        isError = false
+                                    }                  }
+                           
+                            }
+                                
+                           
                         }label:{
                             Text("login").padding()
                                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
@@ -44,9 +60,18 @@ struct LoginView: View {
                     
                     NavigationLink(destination:RegistrationView()){
                         Text("Register now!").foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) )               }}
-            }
-            
-        }.buttonStyle(PlainButtonStyle())
+                
+                if (isError){ ErrorPopupView()
+                }            }
+           
+            .navigationDestination(for: String.self){
+                view in
+                if (view=="WelcomeView")
+                {
+                    WelcomeView()
+                }        }
+        }
+        
     }
 }
 

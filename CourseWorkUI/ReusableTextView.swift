@@ -24,8 +24,7 @@ struct ReusableTextView: View {
            
                 TextField("", text:displayedText)
                 .focused($isFocused)
-                .padding()
-                .background(Color(red:245/255,green:245/255,blue:245/255))
+                .padding()               .background(Color(red:245/255,green:245/255,blue:245/255))
                 .padding(.horizontal,24)
                 .padding(.vertical,8)
                 .foregroundColor(.black.opacity(0.5)).font(.system(size:22, weight:.semibold))
@@ -33,8 +32,8 @@ struct ReusableTextView: View {
                     clicked = true
                 }.onChange(of:text){oldValue,newValue in if newValue == "" {clicked = false
                     isFocused = false}}        }
-        
-        
+
+            
 }
 
 
