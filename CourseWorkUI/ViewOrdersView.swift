@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ViewOrdersView: View {
-    @Binding var response:CommonResponse
+    var response:UserOrderResponse
     var body: some View {
         
         
@@ -17,7 +17,7 @@ struct ViewOrdersView: View {
             
             VStack{
                 Text("Your Orders").font(.system(size:36)).foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) )
-                if(response.data.isEmpty)
+                if(response.currentPage == 0)
                 {
                     Text("You have no orders!").fontWeight(.semibold)
                 }

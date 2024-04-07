@@ -11,46 +11,48 @@ struct LoginView: View {
     @State private var password=""
     @State private var loginStatus = false
     @State var isError = false
-    @State private var path = NavigationPath()
+    @State var path = NavigationPath()
     var body: some View {
-                NavigationStack(path:$path){
+        NavigationStack(path:$path)
+        {
             ZStack{
                 Color(red:217/255,green: 217/255,blue:217/255).ignoresSafeArea()
                 
-               
+                
                 VStack{
                     Text("Login").font(.system(size:36)).foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) )
                     
-                    ReusableTextView(text:$email, placeholder:"Email")
-                    ReusableTextView(text:$password, placeholder:"Password")
+                    ReusableTextView(text: $email, placeholder:"Email")
+                    ReusableTextView(text: $password, placeholder:"Password")
                     
                     
                     HStack{
                         Button {
                             exit(0)                        }label:{
-                            Text("Quit").padding()
-                                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
-                                .padding(.vertical,8)
-                            .foregroundStyle(Color.black)}
+                                Text("Quit").padding()
+                                    .frame(maxWidth: .infinity).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
+                                    .padding(.vertical,8)
+                                .foregroundStyle(Color.black)}
                         Spacer()
                         
                         Button {
                             Task{
                                 
                                 loginStatus =   await login(email: email, password:password)
-                           
-                                if(loginStatus)
+                                
+                                if loginStatus
                                 {
-                                    path.append("WelcomeView")
+                                    path.append("welcome")
+                                    
                                 }else{
                                     isError = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                         isError = false
                                     }                  }
-                           
-                            }
                                 
-                           
+                            }
+                            
+                            
                         }label:{
                             Text("login").padding()
                                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
@@ -58,22 +60,45 @@ struct LoginView: View {
                             .foregroundStyle(Color.black)}
                     }.padding(.vertical)
                     
-                    NavigationLink(destination:RegistrationView()){
-                        Text("Register now!").foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) )               }}
-                
+                    NavigationLink(value:"register")
+                    {
+                        Text("Register now!").foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) )               }
+                }
                 if (isError){ ErrorPopupView()
-                }            }
-           
-            .navigationDestination(for: String.self){
-                view in
-                if (view=="WelcomeView")
+                }
+            }
+            
+            .navigationDestination(for:String.self){
+                page in
+                if page == "login"
                 {
-                    WelcomeView()
-                }        }
+                 LoginView()
+                }else if page == "register"
+                {
+                   RegistrationView()
+                }
+                else if page == "welcome"
+                {
+                    WelcomeView(path:$path)
+                }
+                         
+            }
+            .navigationDestination(for:RegistrationRequestData.self){ obj in
+                RegistrationViewPartTwo(email: obj.email, userName:obj.userName, password: obj.password, password_confirmation: obj.passwordConfirmation,path:$path)
+                
+            }
+            .navigationDestination(for:UserOrderResponse.self){
+                response in
+                ViewOrdersView(response:response)
+            }
+                
+            }
         }
         
+        
     }
-}
+    
+
 
 #Preview {
     LoginView()

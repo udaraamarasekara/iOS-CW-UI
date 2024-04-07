@@ -11,11 +11,10 @@ struct RegistrationView: View {
     @State  var userName=""
        @State  var password_confirmation=""
        @State  var email=""
-        @State  var path = NavigationPath()
        @State  var password=""
        @State var isActive = false
+    @State var data = RegistrationRequestData(id:UUID(),userName: "", email: "", password:"", passwordConfirmation:"")
     var body: some View {
-        NavigationStack(path:$path){
             ZStack{
                 Color(red:217/255,green: 217/255,blue:217/255).ignoresSafeArea()
                 
@@ -35,7 +34,7 @@ struct RegistrationView: View {
                                 .padding(.vertical,8)
                             .foregroundStyle(Color.black)}
                         Spacer()
-                        NavigationLink(destination:RegistrationViewPartTwo(email: $email, userName:$userName, password: $password, password_confirmation: $password_confirmation )){                               Button {
+                        NavigationLink(value:RegistrationRequestData(id:UUID(),userName: userName, email: email, password:password, passwordConfirmation:password_confirmation) ){                               Button {
                             
                         }label:{
                             Text("Next").padding()
@@ -43,13 +42,11 @@ struct RegistrationView: View {
                                 .padding(.vertical,8)
                             .foregroundStyle(Color.black)}
                             .padding(.vertical)}}
-                    NavigationLink(destination:LoginView()){Text("Login instead!").foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) )              } }
-            }
+                    NavigationLink(value:"login"){Text("Login instead!").foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) )              } }
+            
             
         }}
            
 }
 
-#Preview {
-    RegistrationView()
-}
+
