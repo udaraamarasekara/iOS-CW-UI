@@ -99,80 +99,36 @@ func register(email:String,password:String,passwordConfirmation:String,name:Stri
     }catch{
 return false    }
 }
-struct UserOrderResponse: Decodable,Hashable {
-    // Computed property for generating auto-incremented id
-    private static var nextId: Int = 1
-    private static var idLock = NSLock()
-
-    private static func generateId() -> Int {
-        idLock.lock()
-        defer { idLock.unlock() }
-        let id = nextId
-        nextId += 1
-        return id
-    }
-    // Stored properties
-    let id:Int
-    let currentPage: Int
+struct UserOrderResponse: Codable,Hashable {
+    let current_page: Int
     let data: [OrderResponseData]
-    let firstPageUrl: String
+    let first_page_url: String?
     let from: Int
-    let lastPage: Int
-    let lastPageUrl: String
+    let last_page: Int
+    let last_page_url: String?
     let links: [Links]
-    let nextPageUrl: String?
+    let next_page_url: String?
     let path: String
-    let perPage: Int
-    let prevPageUrl: String?
+    let per_page: Int
+    let prev_page_url: String?
     let to: Int
     let total: Int
 
-    // Initialize with auto-generated id
-    init(currentPage: Int, data: [OrderResponseData], firstPageUrl: String, from: Int, lastPage: Int, lastPageUrl: String, links: [Links], nextPageUrl: String?, path: String, perPage: Int, prevPageUrl: String?, to: Int, total: Int) {
-        self.id = UserOrderResponse.generateId()
-        self.currentPage = currentPage
-        self.data = data
-        self.firstPageUrl = firstPageUrl
-        self.from = from
-        self.lastPage = lastPage
-        self.lastPageUrl = lastPageUrl
-        self.links = links
-        self.nextPageUrl = nextPageUrl
-        self.path = path
-        self.perPage = perPage
-        self.prevPageUrl = prevPageUrl
-        self.to = to
-        self.total = total
-    }
+   
 }
-struct Links:Decodable,Hashable{
-    private static var nextId: Int = 1
-    private static var idLock = NSLock()
-
-    private static func generateId() -> Int {
-        idLock.lock()
-        defer { idLock.unlock() }
-        let id = nextId
-        nextId += 1
-        return id
-    }
- let id:Int
- let url:String
+struct Links:Codable,Hashable{
+ let url:String?
  let label:String
  let active:Bool
-    init(id: Int, url: String, label: String, active: Bool) {
-        self.id = Links.generateId()
-        self.url = url
-        self.label = label
-        self.active = active
-    }
 }
-struct OrderResponseData:Decodable,Identifiable,Hashable{
-    let id: Int
+struct OrderResponseData:Codable,Identifiable,Hashable{
+      let id: Int
       let total: Int
       let status: String
-      let orderKey: Int
-      let items: Int
+      let order_key: Int
+      let quantity: Int
+    let final_bill: Int
+    let cloth : String
 }
 struct RegistrationRequestData:Codable,Identifiable,Hashable{
     let id:UUID
@@ -183,31 +139,82 @@ let passwordConfirmation:String
 }
 
 func userOrders  () async -> UserOrderResponse {
-        guard let url = URL(string:url+"userOrders") else {
-            fatalError("Invalid URL")
-        }
-        var request = URLRequest(url: url)
+    guard let url = URL(string:url+"userOrders") else {
+        fatalError("Invalid URL")
+    }
+    var request = URLRequest(url: url)
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     request.setValue("*/*", forHTTPHeaderField:"Accept")
     request.httpMethod = "POST"
     let requestData:[String:Any] =  [
         "email":UserDefaults.standard.string(forKey:"email") ??  ""
-          ]
+    ]
     do{
         request.httpBody = try JSONSerialization.data(withJSONObject: requestData,options:[])
+        
     }
-        catch{
-            print("request error")
-            return UserOrderResponse(currentPage:1,data:[OrderResponseData(id:1, total:1, status: "String", orderKey:1, items: 1)], firstPageUrl: "String", from:0, lastPage: 1, lastPageUrl: "String", links: [Links(id: 0, url: "", label: "String", active: true)], nextPageUrl: "String",path:"",perPage: 1,prevPageUrl: "String", to: 2, total: 3)
-
+    catch{
+        print("request error")
+        return UserOrderResponse(current_page:1,data:[OrderResponseData(id:1, total:1, status: "String", order_key:1,quantity:0,final_bill:0, cloth:"")], first_page_url:nil, from:0, last_page: 1, last_page_url: nil, links: [Links( url: "", label: "String", active: true)], next_page_url: nil,path:"",per_page: 1,prev_page_url: nil, to: 2, total: 3)
+        
+        
     }
     do{
-        let (job, _) = try await session.data(for:request)
-        let obj = try JSONDecoder().decode(UserOrderResponse.self, from: job)
         
-        return obj
+        let (job, _) = try! await session.data(for:request)
+        let obj = try JSONDecoder().decode(UserOrderResponse.self, from:job)
+        print(obj)
+             return obj
     }catch{
-        print("\(error)")
-        return UserOrderResponse( currentPage:1,data:[OrderResponseData(id:1, total:1, status: "String", orderKey:1, items: 1)], firstPageUrl: "String", from:0, lastPage: 1, lastPageUrl: "String", links: [Links(id:1,url: "", label: "String", active: true)], nextPageUrl: "String",path:"",perPage: 1,prevPageUrl: "String", to: 2, total: 3)
+       print("\(error)")
     }
+            
+            
+            
+        
+    
+    
+    return UserOrderResponse(current_page:1,data:[OrderResponseData(id:1, total:1, status: "String", order_key:1,quantity:0,final_bill:0, cloth:"")], first_page_url:nil, from:0, last_page: 1, last_page_url: nil, links: [Links( url: "", label: "String", active: true)], next_page_url: nil,path:"",per_page: 1,prev_page_url: nil, to: 2, total: 3)
+    
+}
+
+func nextOrPrevItemViewOrdersView (url:String) async -> UserOrderResponse
+{
+    guard let url = URL(string:url) else {
+        fatalError("Invalid URL")
+    }
+    var request = URLRequest(url: url)
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.setValue("*/*", forHTTPHeaderField:"Accept")
+    request.httpMethod = "POST"
+    let requestData:[String:Any] =  [
+        "email":UserDefaults.standard.string(forKey:"email") ??  ""
+    ]
+    do{
+        request.httpBody = try JSONSerialization.data(withJSONObject: requestData,options:[])
+        
+    }
+    catch{
+        print("request error")
+        return UserOrderResponse(current_page:1,data:[OrderResponseData(id:1, total:1, status: "String", order_key:1,quantity:0,final_bill:0, cloth:"")], first_page_url:nil, from:0, last_page: 1, last_page_url: nil, links: [Links( url: "", label: "String", active: true)], next_page_url: nil,path:"",per_page: 1,prev_page_url: nil, to: 2, total: 3)
+        
+        
+    }
+    do{
+        
+        let (job, _) = try! await session.data(for:request)
+        let obj = try JSONDecoder().decode(UserOrderResponse.self, from:job)
+        print(obj)
+             return obj
+    }catch{
+       print("\(error)")
+    }
+            
+            
+            
+        
+    
+    
+     return UserOrderResponse(current_page:1,data:[OrderResponseData(id:1, total:1, status: "String", order_key:1,quantity:0,final_bill:0, cloth:"")], first_page_url:nil, from:0, last_page: 1, last_page_url: nil, links: [Links( url: "", label: "String", active: true)], next_page_url: nil,path:"",per_page: 1,prev_page_url: nil, to: 2, total: 3)
+    
 }

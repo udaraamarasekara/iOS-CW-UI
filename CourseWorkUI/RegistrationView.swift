@@ -9,6 +9,8 @@ import SwiftUI
 
 struct RegistrationView: View {
     @State  var userName=""
+    @Binding var path:NavigationPath
+
        @State  var password_confirmation=""
        @State  var email=""
        @State  var password=""

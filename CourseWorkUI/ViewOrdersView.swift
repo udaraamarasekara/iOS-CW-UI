@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ViewOrdersView: View {
-    var response:UserOrderResponse
+  @State  var response:UserOrderResponse
+    @Binding var path:NavigationPath
     var body: some View {
         
         
@@ -17,7 +18,7 @@ struct ViewOrdersView: View {
             
             VStack{
                 Text("Your Orders").font(.system(size:36)).foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) )
-                if(response.currentPage == 0)
+                if(response.current_page == 0)
                 {
                     Text("You have no orders!").fontWeight(.semibold)
                 }
@@ -26,18 +27,30 @@ struct ViewOrdersView: View {
                     ForEach(response.data)
                     {
                         element in
-                        VStack{
-                            Text("Order status :"+" "+element.status)
-                            Text("Total items  :"+" "+"\(element.items)")
-                            Text("Total price  :"+" "+"\(element.total)")
+                        HStack{
+                            Text("Order status : \(element.status)").fontWeight(.semibold)
+                            Text("Total :  \(element.final_bill)").fontWeight(.semibold)
+                        }
+                            
+                            VStack{
+                            Text("Cloth:"+" "+"\(element.cloth)")
+                            Text("Quantity :"+" "+"\(element.quantity)")
+                            Text("Price :"+" "+"\(element.total).00")
                            }
                         }
                 }
                     
                 HStack{
                     Button {
-                        
-                    }label:{
+                        if response.prev_page_url != nil
+                        {
+                            Task{
+                             response =   await nextOrPrevItemViewOrdersView(url:response.prev_page_url ?? "")
+                            }
+                        }
+                        else{
+                            path.append("welcome")
+                        }                    }label:{
                         Text("Back").padding()
                         
                             .padding(.vertical,8)
@@ -45,7 +58,15 @@ struct ViewOrdersView: View {
                     Spacer()
                     
                     Button {
-                        
+                        if response.next_page_url != nil
+                        {
+                            Task{
+                             response =   await nextOrPrevItemViewOrdersView(url:response.next_page_url ?? "")
+                            }
+                        }
+                        else{
+                            
+                        }
                     }label:{
                         Text("Next").padding()
                         

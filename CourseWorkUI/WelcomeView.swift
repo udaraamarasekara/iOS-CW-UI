@@ -9,7 +9,8 @@ import SwiftUI
 
 struct WelcomeView: View {
     @Binding var path:NavigationPath
-    @State var response =  UserOrderResponse( currentPage:1,data:[OrderResponseData(id:1, total:1, status: "String", orderKey:1, items: 1)], firstPageUrl: "String", from:0, lastPage: 1, lastPageUrl: "String", links: [Links(id:1,url: "", label: "String", active: true)], nextPageUrl: "String",path:"",perPage: 1,prevPageUrl: "String", to: 2, total: 3)
+    @State var response =  UserOrderResponse(current_page:1,data:[OrderResponseData(id:1, total:1, status: "String", order_key:1,quantity:0,final_bill:0, cloth:"")], first_page_url:nil, from:0, last_page: 1, last_page_url: nil, links: [Links( url: "", label: "String", active: true)], next_page_url: nil,path:"",per_page: 1,prev_page_url: nil, to: 2, total: 3)
+    
 
     var body: some View {
         ZStack{

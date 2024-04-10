@@ -75,7 +75,7 @@ struct LoginView: View {
                  LoginView()
                 }else if page == "register"
                 {
-                   RegistrationView()
+                    RegistrationView(path:$path)
                 }
                 else if page == "welcome"
                 {
@@ -89,7 +89,7 @@ struct LoginView: View {
             }
             .navigationDestination(for:UserOrderResponse.self){
                 response in
-                ViewOrdersView(response:response)
+                ViewOrdersView(response:response,path:$path)
             }
                 
             }
