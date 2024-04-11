@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ViewOrdersView: View {
   @State  var response:UserOrderResponse
+    @State var isError = false
     @Binding var path:NavigationPath
     var body: some View {
         
@@ -31,41 +32,45 @@ struct ViewOrdersView: View {
                             Text("Order status : \(element.status)").fontWeight(.semibold)
                             Text("Total :  \(element.final_bill)").fontWeight(.semibold)
                         }
-                            
-                            VStack{
+                        
+                        VStack{
                             Text("Cloth:"+" "+"\(element.cloth)")
                             Text("Quantity :"+" "+"\(element.quantity)")
-                            Text("Price :"+" "+"\(element.total).00")
-                           }
+                            Text("Price :"+" "+"\(element.total)")
                         }
+                    }
                 }
-                    
+                
                 HStack{
                     Button {
                         if response.prev_page_url != nil
                         {
                             Task{
-                             response =   await nextOrPrevItemViewOrdersView(url:response.prev_page_url ?? "")
+                                response =   await nextOrPrevItemViewOrdersView(url:response.prev_page_url ?? "")
                             }
                         }
                         else{
                             path.append("welcome")
                         }                    }label:{
-                        Text("Back").padding()
-                        
-                            .padding(.vertical,8)
-                        .foregroundStyle(Color.black).frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)}
+                            Text("Back").padding()
+                            
+                                .padding(.vertical,8)
+                            .foregroundStyle(Color.black).frame(maxWidth: .infinity).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)}
                     Spacer()
                     
                     Button {
                         if response.next_page_url != nil
                         {
                             Task{
-                             response =   await nextOrPrevItemViewOrdersView(url:response.next_page_url ?? "")
+                                response =   await nextOrPrevItemViewOrdersView(url:response.next_page_url ?? "")
                             }
                         }
                         else{
-                            
+                            UserDefaults.standard.setValue("No more data!",forKey:"error")
+                            isError = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                isError = false
+                            }               
                         }
                     }label:{
                         Text("Next").padding()
@@ -73,7 +78,11 @@ struct ViewOrdersView: View {
                             .padding(.vertical,8)
                         .foregroundStyle(Color.black).frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)}
                 }
-            }}}
+                
+                if (isError){ ErrorPopupView()
+                }
+            }
+        }}
 }
 
 

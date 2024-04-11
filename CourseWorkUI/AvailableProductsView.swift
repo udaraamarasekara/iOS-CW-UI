@@ -9,8 +9,7 @@ import SwiftUI
 
 struct AvailableProductsView: View {
     @State private var search=""
-    @State private var itemName=""
-    @State private var price=""
+    @State var response:ClothWholeResponse
     var body: some View {
         
         ZStack{
@@ -25,16 +24,16 @@ struct AvailableProductsView: View {
                 ZStack(alignment:.top)
                 {
                     VStack{
-                        AsyncImage(url:URL(string:"https://picsum.photos/id/1/200/300")){
+                        AsyncImage(url:URL(string:imageUrl+response.data[0].images[0].data[0].image)){
                             image in
                             image.image?.resizable().aspectRatio(contentMode:.fill)
                         }.frame(maxWidth:.infinity,maxHeight:200,alignment:.center)
                             .clipped()
                         
                         HStack{
-                            Text("ItemName : "+itemName).font(.system(size: 26)).padding()
+                            Text("ItemName : "+response.data[0].name).font(.system(size: 26)).padding()
                             Spacer()
-                            Text("ItemName : "+itemName).font(.system(size: 26)).padding()
+                            Text("Price : "+response.data[0].price).font(.system(size: 26)).padding()
                             
                             
                         }
@@ -94,6 +93,4 @@ struct AvailableProductsView: View {
         
     }}
 
-#Preview {
-    AvailableProductsView()
-}
+

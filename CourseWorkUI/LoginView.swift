@@ -90,6 +90,11 @@ struct LoginView: View {
             .navigationDestination(for:UserOrderResponse.self){
                 response in
                 ViewOrdersView(response:response,path:$path)
+            }.navigationDestination(for:AdminOrderResponse.self){
+                response in
+            ViewOrdersForAdminView(response:response,path:$path)
+            }.navigationDestination(for: ClothWholeResponse.self) { response in
+                
             }
                 
             }
