@@ -81,8 +81,14 @@ struct LoginView: View {
                 {
                     WelcomeView(path:$path)
                 }
-                         
-            }
+                else if page == "cart"
+                {
+                    ShoppingCartView(path:$path)
+                }
+                else if page == "newProduct"
+                {
+                    NewProductView(path:$path)
+                }            }
             .navigationDestination(for:RegistrationRequestData.self){ obj in
                 RegistrationViewPartTwo(email: obj.email, userName:obj.userName, password: obj.password, password_confirmation: obj.passwordConfirmation,path:$path)
                 
@@ -94,9 +100,20 @@ struct LoginView: View {
                 response in
             ViewOrdersForAdminView(response:response,path:$path)
             }.navigationDestination(for: ClothWholeResponse.self) { response in
-                
+                AvailableProductsView(response:response,path:$path)
             }
-                
+            .navigationDestination(for: DetailedCloth.self) { response in
+                DetailedProductView(response:response.data,img:response.data.data[0].image,path:$path)
+            }
+            .navigationDestination(for: ClothData.self) { response in
+                PlaceOrderView(response:response,path:$path)
+            }
+            .navigationDestination(for: NewProductData.self) { response in
+                NewProductViewTwo(name: response.name, price: response.price, color: response.color, size: response.size, path:$path)
+            }            .navigationDestination(for: NewProductDataTwo.self) { response in
+                NewProductViewThree(path:$path, name: response.name, price: response.price, color: response.color, size: response.size,
+                                    description:response.description)
+            }
             }
         }
         

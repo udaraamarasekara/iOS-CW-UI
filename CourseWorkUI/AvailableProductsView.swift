@@ -10,6 +10,8 @@ import SwiftUI
 struct AvailableProductsView: View {
     @State private var search=""
     @State var response:ClothWholeResponse
+    @State var isError = false
+    @Binding var path:NavigationPath
     var body: some View {
         
         ZStack{
@@ -20,11 +22,10 @@ struct AvailableProductsView: View {
                 
                 
                 
-                
                 ZStack(alignment:.top)
                 {
                     VStack{
-                        AsyncImage(url:URL(string:imageUrl+response.data[0].images[0].data[0].image)){
+                        AsyncImage(url:URL(string:imageUrl+response.data[0].image.data[0].image)){
                             image in
                             image.image?.resizable().aspectRatio(contentMode:.fill)
                         }.frame(maxWidth:.infinity,maxHeight:200,alignment:.center)
@@ -48,9 +49,13 @@ struct AvailableProductsView: View {
                             Spacer()
                             
                             Button {
-                                
+                                Task{
+                                    let images = await clothImagesNextOrPrev(urlRow:"getClothImages/\(response.data[0].id)?page=1")
+                                    path.append(DetailedCloth(id: UUID(), data:response, img:images))
+                                    
+                                }
                             }label:{
-                                Text("Vier more").padding()
+                                Text("View more").padding()
                                     .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:189/255,green:226/255,blue:86/255)).fontWeight(.semibold)   .padding(.horizontal,24)
                                     .padding(.vertical,8)
                                 .foregroundStyle(Color.black)}
@@ -67,7 +72,16 @@ struct AvailableProductsView: View {
                 
                 HStack{
                     Button {
-                        
+                        Task{
+                            if response.prev_page_url != nil
+                            {
+                                response = await allClothesNextOrPrev(urlRow:response.prev_page_url ?? "")
+                            }
+                            else
+                            {
+                                path.append("welcome")
+                            }
+                        }
                     }label:{
                         Text("Back").padding()
                         
@@ -76,7 +90,20 @@ struct AvailableProductsView: View {
                     Spacer()
                     
                     Button {
-                        
+                        Task{
+                            if response.next_page_url != nil
+                            {
+                                response = await allClothesNextOrPrev(urlRow:response.next_page_url ?? "")
+                            }
+                            else
+                            {
+                                UserDefaults.standard.setValue("No more data!",forKey:"error")
+                                isError = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    isError = false
+                                }
+                            }
+                        }
                     }label:{
                         Text("Next").padding()
                         
@@ -88,6 +115,8 @@ struct AvailableProductsView: View {
 
             }
             
+            if (isError){ ErrorPopupView()
+            }
             
         }
         

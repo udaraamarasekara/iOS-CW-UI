@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ViewOrdersView: View {
   @State  var response:UserOrderResponse
-    @State var isError = false
-    @Binding var path:NavigationPath
+  @State var isError = false
+  @Binding var path:NavigationPath
     var body: some View {
         
         

@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ShoppingCartView: View {
-    private var orders = ["",""]
+    @State  var orders = retrieveObjects()
+    @Binding var path:NavigationPath
 
     var body: some View {
         ZStack{
@@ -19,15 +20,32 @@ struct ShoppingCartView: View {
                 HStack{
                     Text("Shopping cart").font(.system(size:36)).foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) ).padding(.horizontal,24)
                     Spacer()
-                    Text("+").font(.system(size:36)).bold().padding().background((Color(red:195/255,green:184/255,blue:83/255))).clipShape(Circle()).padding(.horizontal,24)}
-                ForEach(orders,id:\.self){
-                order in
-                    Text(order)
+                    Button{
+                        Task{
+                            let tmpRsp = await allClothes()
+                            path.append(tmpRsp)
+                        }
+                    }label: {
+                        Text("+").font(.system(size:36)).bold().padding().background((Color(red:195/255,green:184/255,blue:83/255))).clipShape(Circle()).padding(.horizontal,24)}                    }
+                 
+                ForEach(orders.indices, id: \.self) { index in
+                    let order = orders[index]
+                    HStack {
+                        Text("Item Code : \(order.cloth_id)")
+                        Text("Quantity : \(order.quantity)")
+                        Text("Total  : \(order.total)")
+                        Button(action: {
+                            removeObject(at: index)
+                            orders = retrieveObjects()
+                        }) {
+                            Text("Remove this").foregroundColor(.red)
+                        }
                     
-                }
+                }                }.padding().padding(.horizontal,24)
+                    .padding(.vertical,8)
                 HStack{
                     Button {
-                        
+                        path.removeLast()
                     }label:{
                         Text("Back").padding()
                             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
@@ -36,8 +54,10 @@ struct ShoppingCartView: View {
                 Spacer()
                     
                     Button {
-                        
-                    }label:{
+                        Task{
+                         let result = await placeOrder()
+                        }
+                        }label:{
                         Text("Place Order").padding()
                             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
                             .padding(.vertical,8)
@@ -49,6 +69,3 @@ struct ShoppingCartView: View {
         }
 }
 
-#Preview {
-    ShoppingCartView()
-}

@@ -12,7 +12,7 @@ struct ViewOrdersForAdminView: View {
     @Binding var path:NavigationPath
     @State var responseEditStatus = false
     @State var isError = false
-   var body:some View {
+    var body:some View {
         
         
         ZStack{
@@ -33,14 +33,14 @@ struct ViewOrdersForAdminView: View {
                             Text("Order status : \(element.status)").fontWeight(.semibold)
                             Text("Total :  \(element.final_bill)").fontWeight(.semibold)
                         }
+                        
+                        VStack{
                             
-                            VStack{
-                                
-                                Text("Customer:"+" "+"\(element.user)")
+                            Text("Customer:"+" "+"\(element.user)")
                             Text("Cloth:"+" "+"\(element.cloth)")
                             Text("Quantity :"+" "+"\(element.quantity)")
                             Text("Price :"+" "+"\(element.total)")
-                           }
+                        }
                         VStack{
                             Text("Update order status").fontWeight(.semibold).padding(.vertical)
                             HStack{
@@ -50,10 +50,10 @@ struct ViewOrdersForAdminView: View {
                                         if responseEditStatus {
                                             response = await adminOrders()
                                         }}                                }label:{
-                                    Text("Shipped").padding()
-                                        .frame(maxWidth: .infinity).background(Color(red:86/255,green:217/255,blue:226/255)).fontWeight(.semibold)   .padding(.horizontal,24)
-                                        .padding(.vertical,8)
-                                    .foregroundStyle(Color.black)}
+                                            Text("Shipped").padding()
+                                                .frame(maxWidth: .infinity).background(Color(red:86/255,green:217/255,blue:226/255)).fontWeight(.semibold)   .padding(.horizontal,24)
+                                                .padding(.vertical,8)
+                                            .foregroundStyle(Color.black)}
                                 Spacer()
                                 
                                 Button {
@@ -70,29 +70,29 @@ struct ViewOrdersForAdminView: View {
                             }.padding(.vertical)
                         }                        }
                 }
-                    
+                
                 HStack{
                     Button {
                         if response.prev_page_url != nil
                         {
                             Task{
-                             response =   await nextOrPrevItemViewOrdersView(url:response.prev_page_url ?? "")
+                                response =   await nextOrPrevItemViewOrdersView(url:response.prev_page_url ?? "")
                             }
                         }
                         else{
                             path.append("welcome")
                         }                    }label:{
-                        Text("Back").padding()
-                        
-                            .padding(.vertical,8)
-                        .foregroundStyle(Color.black).frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)}
+                            Text("Back").padding()
+                            
+                                .padding(.vertical,8)
+                            .foregroundStyle(Color.black).frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)}
                     Spacer()
                     
                     Button {
                         if response.next_page_url != nil
                         {
                             Task{
-                             response =   await nextOrPrevItemViewOrdersView(url:response.next_page_url ?? "")
+                                response =   await nextOrPrevItemViewOrdersView(url:response.next_page_url ?? "")
                             }
                         }
                         else{
@@ -100,7 +100,7 @@ struct ViewOrdersForAdminView: View {
                             isError = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                 isError = false
-                            } 
+                            }
                         }
                     }label:{
                         Text("Next").padding()
@@ -108,7 +108,12 @@ struct ViewOrdersForAdminView: View {
                             .padding(.vertical,8)
                         .foregroundStyle(Color.black).frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)}
                 }
-            }}}
+                
+                
+            }
+            if (isError){ ErrorPopupView()
+            }}
+    }
 }
 
 

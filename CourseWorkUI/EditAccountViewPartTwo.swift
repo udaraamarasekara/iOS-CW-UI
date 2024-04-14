@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EditAccountViewPartTwo: View {
     var userName=""
-         var password_confirmation=""
+        @State var password_confirmation=""
          var email=""
          var password=""
         @State private var card_number=""
