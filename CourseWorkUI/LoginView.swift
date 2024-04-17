@@ -85,12 +85,19 @@ struct LoginView: View {
                 {
                     ShoppingCartView(path:$path)
                 }
-                else if page == "newProduct"
+                else if page == "account"
+                {
+                    EditAccountView(path:$path)
+                }else if page == "newProduct"
                 {
                     NewProductView(path:$path)
                 }            }
             .navigationDestination(for:RegistrationRequestData.self){ obj in
                 RegistrationViewPartTwo(email: obj.email, userName:obj.userName, password: obj.password, password_confirmation: obj.passwordConfirmation,path:$path)
+                
+            }
+            .navigationDestination(for:RegistrationRequestDataTwo.self){ obj in
+                EditAccountViewPartTwo(email: obj.email, userName:obj.userName, password: obj.password, password_confirmation: obj.passwordConfirmation,path:$path)
                 
             }
             .navigationDestination(for:UserOrderResponse.self){

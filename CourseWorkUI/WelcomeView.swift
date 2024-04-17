@@ -60,7 +60,7 @@ struct WelcomeView: View {
                         .foregroundStyle(Color.black)}
                 }
                     Button {
-                    
+                        path.append("account")
                 }            label:{
                     Text("Account").padding()
                         .frame(maxWidth: .infinity).background(Color(red:189/255,green:226/255,blue:86/255)).fontWeight(.semibold)   .padding(.horizontal,24)

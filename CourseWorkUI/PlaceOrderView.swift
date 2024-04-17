@@ -53,7 +53,7 @@ struct PlaceOrderView: View {
                        .foregroundColor(.black.opacity(0.5)).font(.system(size:22, weight:.semibold))
                    HStack{
                        Button {
-                           
+                           path.removeLast()
                        }label:{
                            Text("Back").padding()
                                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)

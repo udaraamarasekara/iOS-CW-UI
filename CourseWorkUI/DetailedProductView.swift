@@ -16,10 +16,14 @@ struct DetailedProductView: View {
     var body: some View {
         
         ZStack{
+             
             Color(red:217/255,green: 217/255,blue:217/255).ignoresSafeArea()
             VStack{
+                if (isError){ ErrorPopupView()
+                }
                 Button{
-                    path.append(response.data[0])
+                        path.append(response.data[0])
+                    
                 }label:{
                     Text("Order->").foregroundStyle( Color(red:127/255,green:123/255,blue:13/255)).padding(.horizontal,24).frame(maxWidth:.infinity,alignment:.trailing).padding()
                 }
@@ -92,8 +96,7 @@ struct DetailedProductView: View {
                 Text("more details...").foregroundStyle( Color(red:127/255,green:123/255,blue:13/255)).padding(.horizontal,24).frame(maxWidth:/*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment:.trailing).padding()             }.padding()
        
             
-            if (isError){ ErrorPopupView()
-            }
+           
             
             
         }

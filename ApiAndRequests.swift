@@ -101,6 +101,42 @@ func register(email:String,password:String,passwordConfirmation:String,name:Stri
     }catch{
 return false    }
 }
+
+func updateAccount(email:String,password:String,passwordConfirmation:String,name:String,
+              cardNumber:String,accountName:String,expiredDate:String,cvv:String) async  -> Bool{
+    
+  
+    guard let endpoint = URL(string:url+"register")else{return false }
+    var request = URLRequest(url:endpoint)
+    request.httpMethod = "POST"
+    let requestData:[String:Any]=[
+        "email":email,
+        "password":password,
+        "password_confirmation":passwordConfirmation,
+        "name":name,
+        "card_number":cardNumber,
+        "expired_date":expiredDate,
+        "account_name":accountName,
+        "cvv":cvv,
+        "old_mail":UserDefaults.standard.string(forKey:"email") ?? ""
+    ]
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.setValue("*/*", forHTTPHeaderField:"Accept")
+    do {
+        request.httpBody = try JSONSerialization.data(withJSONObject: requestData,options:[])
+    } catch {
+        res = false
+        UserDefaults.standard.set("Something went wrong", forKey:"error")
+    }
+    res = false
+    do{
+        let (job, _) = try await  session.data(for:request)
+        res = true
+        print(job)
+        return res
+    }catch{
+return false    }
+}
 struct UserOrderResponse: Codable,Hashable {
     let current_page: Int
     let data: [OrderResponseData]
@@ -218,7 +254,13 @@ let email:String
 let password:String
 let passwordConfirmation:String
 }
-
+struct RegistrationRequestDataTwo:Codable,Identifiable,Hashable{
+    let id:UUID
+ let userName:String
+let email:String
+let password:String
+let passwordConfirmation:String
+}
 struct NewProductData:Codable,Identifiable,Hashable{
     let id:UUID
  let name:String

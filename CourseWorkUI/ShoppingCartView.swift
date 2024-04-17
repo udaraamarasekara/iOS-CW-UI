@@ -56,6 +56,7 @@ struct ShoppingCartView: View {
                     Button {
                         Task{
                          let result = await placeOrder()
+                            UserDefaults.standard.removeObject(forKey:"objectsArray")
                         }
                         }label:{
                         Text("Place Order").padding()

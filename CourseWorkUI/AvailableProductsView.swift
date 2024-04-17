@@ -25,47 +25,50 @@ struct AvailableProductsView: View {
                 ZStack(alignment:.top)
                 {
                     VStack{
-                        AsyncImage(url:URL(string:imageUrl+response.data[0].image.data[0].image)){
-                            image in
-                            image.image?.resizable().aspectRatio(contentMode:.fill)
-                        }.frame(maxWidth:.infinity,maxHeight:200,alignment:.center)
-                            .clipped()
-                        
-                        HStack{
-                            Text("ItemName : "+response.data[0].name).font(.system(size: 26)).padding()
-                            Spacer()
-                            Text("Price : "+response.data[0].price).font(.system(size: 26)).padding()
+                        if response.data.isEmpty{
+                            Text("No Products!").background(Color(red:217/255,green: 217/255,blue:217/255)                        )}
+                        else{
+                            AsyncImage(url:URL(string:imageUrl+response.data[0].image.data[0].image)){
+                                image in
+                                image.image?.resizable().aspectRatio(contentMode:.fill)
+                            }.frame(maxWidth:.infinity,maxHeight:200,alignment:.center)
+                                .clipped()
+                            
+                            HStack{
+                                Text("ItemName : "+response.data[0].name).font(.system(size: 26)).padding()
+                                Spacer()
+                                Text("Price : "+response.data[0].price).font(.system(size: 26)).padding()
+                                
+                                
+                            }
+                            HStack{
+                                Button {
+                                    path.append(response.data[0])
+                                }label:{
+                                    Text("Order").padding()
+                                        .frame(maxWidth: .infinity).background(Color(red:86/255,green:217/255,blue:226/255)).fontWeight(.semibold)   .padding(.horizontal,24)
+                                        .padding(.vertical,8)
+                                    .foregroundStyle(Color.black)}
+                                Spacer()
+                                
+                                Button {
+                                    Task{
+                                        let images = await clothImagesNextOrPrev(urlRow:"getClothImages/\(response.data[0].id)?page=1")
+                                        path.append(DetailedCloth(id: UUID(), data:response, img:images))
+                                        
+                                    }
+                                }label:{
+                                    Text("View more").padding()
+                                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:189/255,green:226/255,blue:86/255)).fontWeight(.semibold)   .padding(.horizontal,24)
+                                        .padding(.vertical,8)
+                                    .foregroundStyle(Color.black)}
+                            }.padding(.vertical)
                             
                             
                         }
-                        HStack{
-                            Button {
-                                
-                            }label:{
-                                Text("Order").padding()
-                                    .frame(maxWidth: .infinity).background(Color(red:86/255,green:217/255,blue:226/255)).fontWeight(.semibold)   .padding(.horizontal,24)
-                                    .padding(.vertical,8)
-                                .foregroundStyle(Color.black)}
-                            Spacer()
-                            
-                            Button {
-                                Task{
-                                    let images = await clothImagesNextOrPrev(urlRow:"getClothImages/\(response.data[0].id)?page=1")
-                                    path.append(DetailedCloth(id: UUID(), data:response, img:images))
-                                    
-                                }
-                            }label:{
-                                Text("View more").padding()
-                                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:189/255,green:226/255,blue:86/255)).fontWeight(.semibold)   .padding(.horizontal,24)
-                                    .padding(.vertical,8)
-                                .foregroundStyle(Color.black)}
-                        }.padding(.vertical)
                         
                         
                     }
-                    
-                    
-                    
                     
                 } .background(Color(red:245/255,green:245/255,blue:245/255))
                     .cornerRadius(20).padding(.horizontal,24)

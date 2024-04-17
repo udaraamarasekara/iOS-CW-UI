@@ -12,6 +12,7 @@ struct EditAccountView: View {
        @State private var password_confirmation=""
        @State private var email=""
        @State private var password=""
+    @Binding var path:NavigationPath
     var body: some View {
         ZStack{
             Color(red:217/255,green: 217/255,blue:217/255).ignoresSafeArea()
@@ -25,30 +26,27 @@ struct EditAccountView: View {
                 
                 HStack{
                     Button {
-                        
+                        path.removeLast()
                     }label:{
-                        Text("Quit").padding()
+                        Text("Back").padding()
                             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)    .background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
                             .padding(.vertical,8)
                         .foregroundStyle(Color.black)}
                     Spacer()
                     
                     Button {
-                        
+                        path.append(RegistrationRequestDataTwo(id:UUID(),userName: userName, email: email, password:password, passwordConfirmation:password_confirmation)
+                              )
                     }label:{
                         Text("Next").padding()
                             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)      .background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
                             .padding(.vertical,8)
                         .foregroundStyle(Color.black)}
                 }.padding(.vertical)
-                
-                Text("Login instead!").foregroundStyle( Color(red:127/255,green:123/255,blue:13/255) )
+
             }
         }
             
         }
 }
 
-#Preview {
-    EditAccountView()
-}
