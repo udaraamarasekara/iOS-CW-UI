@@ -78,7 +78,13 @@ struct AvailableProductsView: View {
                         Task{
                             if response.prev_page_url != nil
                             {
-                                response = await allClothesNextOrPrev(urlRow:response.prev_page_url ?? "")
+                                
+                                var imgpg = response.data[0].image.first_page_url
+                                if response.data[0].image.next_page_url != nil
+                                {
+                                    imgpg = response.data[0].image.next_page_url
+                                }
+                                response = await allClothesNextOrPrev(urlRow:response.prev_page_url ?? "",imgpg:imgpg ?? "")
                             }
                             else
                             {
@@ -96,7 +102,13 @@ struct AvailableProductsView: View {
                         Task{
                             if response.next_page_url != nil
                             {
-                                response = await allClothesNextOrPrev(urlRow:response.next_page_url ?? "")
+                                var imgpg = response.data[0].image.first_page_url
+                                if response.data[0].image.next_page_url != nil
+                                {
+                                    imgpg = response.data[0].image.next_page_url
+                                }
+                                
+                                response = await allClothesNextOrPrev(urlRow:response.next_page_url ?? "",imgpg:imgpg ?? "")
                             }
                             else
                             {

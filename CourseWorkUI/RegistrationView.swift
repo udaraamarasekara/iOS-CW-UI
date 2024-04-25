@@ -37,8 +37,8 @@ struct RegistrationView: View {
                             .foregroundStyle(Color.black)}
                         Spacer()
                         NavigationLink(value:RegistrationRequestData(id:UUID(),userName: userName, email: email, password:password, passwordConfirmation:password_confirmation) ){                               Button {
-                            
-                        }label:{
+                            path.append(RegistrationRequestDataTwoV2(id:UUID(),userName: userName, email: email, password:password, passwordConfirmation:password_confirmation)
+                                  )                        }label:{
                             Text("Next").padding()
                                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
                                 .padding(.vertical,8)

@@ -10,7 +10,7 @@ import SwiftUI
 struct ShoppingCartView: View {
     @State  var orders = retrieveObjects()
     @Binding var path:NavigationPath
-
+    @State var isError = false
     var body: some View {
         ZStack{
             Color(red:217/255,green: 217/255,blue:217/255).ignoresSafeArea()
@@ -27,7 +27,7 @@ struct ShoppingCartView: View {
                         }
                     }label: {
                         Text("+").font(.system(size:36)).bold().padding().background((Color(red:195/255,green:184/255,blue:83/255))).clipShape(Circle()).padding(.horizontal,24)}                    }
-                 
+                
                 ForEach(orders.indices, id: \.self) { index in
                     let order = orders[index]
                     HStack {
@@ -40,8 +40,8 @@ struct ShoppingCartView: View {
                         }) {
                             Text("Remove this").foregroundColor(.red)
                         }
-                    
-                }                }.padding().padding(.horizontal,24)
+                        
+                    }                }.padding().padding(.horizontal,24)
                     .padding(.vertical,8)
                 HStack{
                     Button {
@@ -51,20 +51,30 @@ struct ShoppingCartView: View {
                             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
                             .padding(.vertical,8)
                         .foregroundStyle(Color.black)}
-                Spacer()
+                    Spacer()
                     
                     Button {
                         Task{
-                         let result = await placeOrder()
+                            await placeOrder()
                             UserDefaults.standard.removeObject(forKey:"objectsArray")
-                        }
-                        }label:{
+                            UserDefaults.standard.setValue("Order placed",forKey:"error")
+                            isError = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                isError = false
+                            }}                          // Perform action when "Add" button is tapped
+                            // Yo                        }
+                    }label:{
                         Text("Place Order").padding()
                             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background(Color(red:195/255,green:184/255,blue:83/255)).fontWeight(.semibold)   .padding(.horizontal,24)
                             .padding(.vertical,8)
                         .foregroundStyle(Color.black)}
                 }.padding(.vertical)
-                              }
+                
+                
+            }
+            if (isError){ ErrorPopupView()
+            }  
+            
         }
             
         }

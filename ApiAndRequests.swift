@@ -96,7 +96,7 @@ func register(email:String,password:String,passwordConfirmation:String,name:Stri
     do{
         let (job, _) = try await  session.data(for:request)
         res = true
-        print(job)
+        print(String(data:job,encoding:.utf8))
         return res
     }catch{
 return false    }
@@ -205,12 +205,12 @@ struct ClothData:Codable,Identifiable,Hashable{
     let price: String
     let created_at:String
     let updated_at:String
-    let image:ImageDummy
+    var image:ImageDummy
 }
 
 struct ImageDummy:Codable,Hashable{
 let current_page:Int
-let data:[ImageDataDummy]
+    var data:[ImageDataDummy]
     let first_page_url: String?
     let from: Int?
     let last_page: Int
@@ -225,14 +225,29 @@ let data:[ImageDataDummy]
 }
 
 struct ImageDataDummy:Codable,Hashable{
-    let id:Int
-    let created_at:String
-    let updated_at:String
-    let image:String
-    let cloth_id:Int
+    var id:Int
+    var created_at:String
+    var updated_at:String
+    var image:String
+    var cloth_id:Int
 }
 
 struct ClothWholeResponse:Codable,Hashable{
+    let current_page:Int
+    var data:[ClothData]
+    let first_page_url: String?
+    let from: Int?
+    let last_page: Int
+    let last_page_url: String?
+    let links: [Links]
+    let next_page_url: String?
+    let path: String
+    let per_page: Int
+    let prev_page_url: String?
+    let to: Int?
+    let total: Int}
+
+struct ClothWholeResponseDescription:Codable,Hashable{
     let current_page:Int
     let data:[ClothData]
     let first_page_url: String?
@@ -246,7 +261,6 @@ struct ClothWholeResponse:Codable,Hashable{
     let prev_page_url: String?
     let to: Int?
     let total: Int}
-
 struct RegistrationRequestData:Codable,Identifiable,Hashable{
     let id:UUID
  let userName:String
@@ -255,6 +269,13 @@ let password:String
 let passwordConfirmation:String
 }
 struct RegistrationRequestDataTwo:Codable,Identifiable,Hashable{
+    let id:UUID
+ let userName:String
+let email:String
+let password:String
+let passwordConfirmation:String
+}
+struct RegistrationRequestDataTwoV2:Codable,Identifiable,Hashable{
     let id:UUID
  let userName:String
 let email:String
@@ -288,7 +309,7 @@ let size:String
 struct DetailedCloth:Codable,Hashable{
     let id :UUID
     let data:ClothWholeResponse
-    let img:ImageDummy
+    var img:ImageDummy
 }
 
 func userOrders  () async -> UserOrderResponse {
@@ -491,8 +512,43 @@ func updateOrderStatus(order_key:Int,status:String) async -> Bool
      return false
     }
 }
+func getClothImages  (urlNow:String) async -> ImageDummy {
+    guard let url = URL(string:url+urlNow) else {
+        fatalError("Invalid URL")
+    }
+    var request = URLRequest(url: url)
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.setValue("*/*", forHTTPHeaderField:"Accept")
+    request.httpMethod = "POST"
+    let requestData:[String:Any] =  [
+        "email":UserDefaults.standard.string(forKey:"email") ??  ""
+    ]
+    do{
+        request.httpBody = try JSONSerialization.data(withJSONObject: requestData,options:[])
+        
+    }
+    catch{
+        print("request error")
+        return  ImageDummy(current_page: 0, data: [ImageDataDummy(id: 0, created_at: "", updated_at: "", image: "", cloth_id: 0)], first_page_url:nil, from: nil, last_page: 0, last_page_url:nil, links: [Links(url: "", label: "", active: false)], next_page_url:"", path:"" , per_page: 0, prev_page_url: nil, to:0, total:0)
+    }
+    do{
+        
+        let (job, _) = try! await session.data(for:request)
+        let obj = try JSONDecoder().decode(ImageDummy.self, from:job)
+        print(obj)
+        return obj
+    }catch{
+        print("\(error)")
+    }
+    
+    
+    
+    
+    
+    
+    return  ImageDummy(current_page: 0, data: [ImageDataDummy(id: 0, created_at: "", updated_at: "", image: "", cloth_id: 0)], first_page_url:nil, from: nil, last_page: 0, last_page_url:nil, links: [Links(url: "", label: "", active: false)], next_page_url:"", path:"" , per_page: 0, prev_page_url: nil, to:0, total:0)
 
-
+}
 func allClothes  () async -> ClothWholeResponse {
     guard let url = URL(string:url+"allCloths") else {
         fatalError("Invalid URL")
@@ -516,7 +572,8 @@ func allClothes  () async -> ClothWholeResponse {
     do{
         
         let (job, _) = try! await session.data(for:request)
-        let obj = try JSONDecoder().decode(ClothWholeResponse.self, from:job)
+        var obj = try JSONDecoder().decode(ClothWholeResponse.self, from:job)
+        obj.data[0].image =  await getClothImages(urlNow:"getClothImages/\(obj.data[0].id)")
         print(obj)
              return obj
     }catch{
@@ -530,11 +587,10 @@ func allClothes  () async -> ClothWholeResponse {
     
     return ClothWholeResponse(current_page: 0, data: [ClothData(id: 0, name: "", size: "", description: "", color:"", price:"", created_at: "", updated_at: "", image: ImageDummy(current_page: 0, data: [ImageDataDummy(id: 0, created_at: "", updated_at: "", image: "", cloth_id: 0)], first_page_url:nil, from: nil, last_page: 0, last_page_url:nil, links: [Links(url: "", label: "", active: false)], next_page_url:"", path:"" , per_page: 0, prev_page_url: nil, to:0, total:0))], first_page_url: nil, from: 0, last_page:0, last_page_url: nil, links: [Links(url: nil, label:"", active: false)], next_page_url: nil, path: "", per_page: 0, prev_page_url: nil, to:nil, total:0)
 }
-func allClothesNextOrPrev  (urlRow:String) async -> ClothWholeResponse {
+func allClothesNextOrPrev  (urlRow:String,imgpg:String) async -> ClothWholeResponse {
     guard let url = URL(string:urlRow) else {
         fatalError("Invalid URL")
     }
-    print("url 1"+urlRow)
     var request = URLRequest(url: url)
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     request.setValue("*/*", forHTTPHeaderField:"Accept")
@@ -554,9 +610,10 @@ func allClothesNextOrPrev  (urlRow:String) async -> ClothWholeResponse {
     do{
         
         let (job, _) = try! await session.data(for:request)
-        let obj = try JSONDecoder().decode(ClothWholeResponse.self, from:job)
-        print(obj)
-             return obj
+        var obj = try JSONDecoder().decode(ClothWholeResponse.self, from:job)
+        
+        obj.data[0].image =  await getClothImages(urlNow:"getClothImages/\(obj.data[0].id)")
+        return obj
     }catch{
        print("\(error)")
     }
@@ -716,7 +773,7 @@ func newProduct (product:NewProductDataFinal) async -> Bool {
                 requestBody.append("--\(boundary + lineBreak)")
                 requestBody.append("Content-Disposition: form-data; name=\"images[]\"; filename=\"\(uuid).jpg\"\(lineBreak)")
                 requestBody.append("Content-Type: image/jpeg\(lineBreak + lineBreak)")
-                requestBody.append(image.jpegData(compressionQuality: 0.99)!)
+                requestBody.append(image.jpegData(compressionQuality:0)!)
                 requestBody.append(lineBreak)
             }
             requestBody.append("--\(boundary)--\(lineBreak)")

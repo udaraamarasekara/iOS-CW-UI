@@ -100,7 +100,10 @@ struct LoginView: View {
                 EditAccountViewPartTwo(email: obj.email, userName:obj.userName, password: obj.password, password_confirmation: obj.passwordConfirmation,path:$path)
                 
             }
-            .navigationDestination(for:UserOrderResponse.self){
+            .navigationDestination(for:RegistrationRequestDataTwoV2.self){ obj in
+                RegistrationViewPartTwo(email: obj.email, userName:obj.userName, password: obj.password, password_confirmation: obj.passwordConfirmation,path:$path)
+                
+            }            .navigationDestination(for:UserOrderResponse.self){
                 response in
                 ViewOrdersView(response:response,path:$path)
             }.navigationDestination(for:AdminOrderResponse.self){
@@ -120,8 +123,9 @@ struct LoginView: View {
             }            .navigationDestination(for: NewProductDataTwo.self) { response in
                 NewProductViewThree(path:$path, name: response.name, price: response.price, color: response.color, size: response.size,
                                     description:response.description)
-            }
-            }
+            }.navigationDestination(for: ClothWholeResponseDescription.self) { response in
+                ProductDiscriptionView(path:$path, response:response )
+            }            }
         }
         
         

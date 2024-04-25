@@ -34,7 +34,7 @@ struct RegistrationViewPartTwo: View {
                     ReusableTextView(text:$cvv, placeholder:"CVV")
                     HStack{
                         Button {
-                            
+                            path.removeLast()
                         }label:{
                             Text("Back").padding()
                             
@@ -48,6 +48,7 @@ struct RegistrationViewPartTwo: View {
                                 if (registered){
                                     path.append("login")
                                 }else{
+                                    UserDefaults.standard.setValue("Invalid Input!",forKey:"error")
                                     isError = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                         isError = false

@@ -19,8 +19,6 @@ struct DetailedProductView: View {
              
             Color(red:217/255,green: 217/255,blue:217/255).ignoresSafeArea()
             VStack{
-                if (isError){ ErrorPopupView()
-                }
                 Button{
                         path.append(response.data[0])
                     
@@ -92,8 +90,16 @@ struct DetailedProductView: View {
                 Text("Color :" + response.data[0].color).padding()
                     .foregroundColor(.black.opacity(0.5)).font(.system(size:22, weight:.semibold)).frame(maxWidth:.infinity).background(Color(red:245/255,green:245/255,blue:245/255)).padding(.horizontal,24)
                 
-                
-                Text("more details...").foregroundStyle( Color(red:127/255,green:123/255,blue:13/255)).padding(.horizontal,24).frame(maxWidth:/*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment:.trailing).padding()             }.padding()
+                if (isError){ ErrorPopupView()
+                }
+                Button{
+                    path.append(ClothWholeResponseDescription(current_page: response.current_page, data:response.data, first_page_url:response.first_page_url, from: response.from, last_page: response.last_page, last_page_url:response.last_page_url, links:response.links, next_page_url: response.next_page_url, path: response.path, per_page: response.per_page, prev_page_url:response.prev_page_url, to: response.to, total: response.total))
+                    
+                }label:{
+         
+                                    Text("more details...").foregroundStyle( Color(red:127/255,green:123/255,blue:13/255)).padding(.horizontal,24).frame(maxWidth:/*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment:.trailing).padding()
+                }
+                          }.padding()
        
             
            

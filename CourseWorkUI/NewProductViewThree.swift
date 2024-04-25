@@ -6,7 +6,7 @@ struct NewProductViewThree: View {
     @State  var selectedImages = [Image]()
     @State var imageDatas:[UIImage] = []
     @Binding var path: NavigationPath
-    
+    @State var isError = false
     var name: String
     var price: String
    var color: String
@@ -67,17 +67,20 @@ struct NewProductViewThree: View {
                     Button(action: {
                          
                                             // Convert Image to UIImage
-                            let images: [Image] = selectedImages
-                            imageDatas  = imagesToData(images: images)
-                                           
-                                                                                      
+                                                                     
                         
                         Task{
-                            print(name)
+                            let images: [Image] =  selectedImages
+                            imageDatas  =    imagesToData(images: images)
+                                           
+                                            
                             await newProduct(product: NewProductDataFinal(id: UUID(), name: name, price: price, color:color, size: size, description: description, images:imageDatas))
                         }
-
-                        // Perform action when "Add" button is tapped
+                        UserDefaults.standard.setValue("Item Added",forKey:"error")
+                        isError = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            isError = false
+                        }                          // Perform action when "Add" button is tapped
                         // You can add the logic to add the product here
                     }) {
                         Text("Add")
@@ -93,7 +96,8 @@ struct NewProductViewThree: View {
                 .padding()
                 .padding(.vertical, 24)
                 .padding(.horizontal, 24)
-            }
+            if (isError){ ErrorPopupView()
+            }            }
         }
     }
 

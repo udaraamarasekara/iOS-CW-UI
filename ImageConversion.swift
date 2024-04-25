@@ -2,7 +2,7 @@ import SwiftUI
    
     extension Image {
         func uiImage() -> UIImage {
-            let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+            let containerView = UIView(frame: CGRect(x:0,y:0,width:100,height:100))
             let hostingController = UIHostingController(rootView: self)
             containerView.addSubview(hostingController.view)
             hostingController.view.frame = containerView.bounds
